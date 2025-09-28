@@ -1,26 +1,52 @@
 import sqlite3
 
-# Connect to the database you created
-conn = sqlite3.connect("habit_tracker.db")
-cursor = conn.cursor()
+DB_PATH = "habit_tracker.db"
 
-# Insert a sample user (⚠️ password is plain text for now)
-cursor.execute("""
-INSERT INTO users (username, email, password)
-VALUES (?, ?, ?)
-""", ("jdoe", "jdoe@example.com", "password123"))
+USERS = [
+    ("Jurgen", "Baeza", "jdoe",  "jdoe@example.com",  "password123"),
+    ("Alice",  "Smith", "asmith","asmith@example.com","letmein"),
+    ("Bob",    "Lee",   "blee",  "bob.lee@example.com","hunter2"),
+    # add more here...
+]
 
-# Insert a couple of habits for that user (user_id = 1 here)
-cursor.execute("""
-INSERT INTO habits (user_id, habit_name, duration)
-VALUES (?, ?, ?)
-""", (1, "Read for 30 min", "30 min"))
+def upsert_user(cur, first, last, username, email, password):
+    """
+    Insert a user; if the username OR email already exists, keep the existing row.
+    Return that user's user_id either way.
+    """
+    try:
+        cur.execute(
+            """
+            INSERT INTO users (first_name, last_name, username, email, password)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (first, last, username, email, password),
+        )
+        return cur.lastrowid
+    except sqlite3.IntegrityError:
+        # username or email is UNIQUE; fetch existing user_id
+        cur.execute(
+            "SELECT user_id FROM users WHERE username = ? OR email = ? LIMIT 1",
+            (username, email),
+        )
+        row = cur.fetchone()
+        if not row:
+            raise
+        return row[0]
 
-cursor.execute("""
-INSERT INTO habits (user_id, habit_name, duration)
-VALUES (?, ?, ?)
-""", (1, "Went for a run", "1 hour"))
+def main():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
 
-conn.commit()
-print("Sample user and habits inserted!")
-conn.close()
+    user_ids = {}
+    for first, last, username, email, pwd in USERS:
+        uid = upsert_user(cur, first, last, username, email, pwd)
+        user_ids[username] = uid
+        print(f"{username} -> user_id={uid}")
+
+    conn.commit()
+    conn.close()
+    print("All users inserted (or already existed).")
+
+if __name__ == "__main__":
+    main()
