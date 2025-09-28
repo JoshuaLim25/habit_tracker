@@ -4,10 +4,15 @@ import sqlite3
 conn = sqlite3.connect("habit_tracker.db")
 cursor = conn.cursor()
 
+cursor.execute("DROP TABLE IF EXISTS habits;")
+cursor.execute("DROP TABLE IF EXISTS users;")
+
 # Create User table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
