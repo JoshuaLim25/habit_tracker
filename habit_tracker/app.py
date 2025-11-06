@@ -4,8 +4,9 @@ import sqlite3
 from auth import hash_password, verify_password
 from datetime import datetime, date, timedelta
 import re
+import os
 
-DB = "habit_tracker.db"
+DB = os.path.join(os.path.dirname(__file__), "habit_tracker.db")
 
 app = Flask(__name__)
 # allow your React dev server to call this API

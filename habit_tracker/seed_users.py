@@ -1,7 +1,8 @@
 import sqlite3
+import os
 from auth import hash_password
 
-DB = "habit_tracker.db"
+DB = os.path.join(os.path.dirname(__file__), "habit_tracker.db")
 
 USERS = [
     ("Jurgen", "Baeza", "jdoe",  "jdoe@example.com",  "password123"),
