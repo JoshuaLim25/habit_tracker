@@ -18,7 +18,7 @@ export default function Dashboard({ auth, onLogout }) {
   const [editName, setEditName] = useState("");
   const [editDuration, setEditDuration] = useState("");
 
-  // Summary
+  // Summary of habits
   const [weeklyTotal, setWeeklyTotal] = useState(0);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [longestStreak, setLongestStreak] = useState(0);
