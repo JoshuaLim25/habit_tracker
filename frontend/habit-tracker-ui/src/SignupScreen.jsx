@@ -106,7 +106,7 @@ export default function SignupScreen({ onSwitchToLogin }) {
                 <input
                   value={firstName} onChange={(e) => setFirstName(e.target.value)}
                   className="w-full rounded-xl border border-slate-300 focus:border-slate-500 focus:ring-slate-500/30 px-3 py-2 outline-none"
-                  placeholder="Jurgen"
+                  placeholder="First Name"
                 />
               </div>
               <div className="space-y-2">
@@ -114,7 +114,7 @@ export default function SignupScreen({ onSwitchToLogin }) {
                 <input
                   value={lastName} onChange={(e) => setLastName(e.target.value)}
                   className="w-full rounded-xl border border-slate-300 focus:border-slate-500 focus:ring-slate-500/30 px-3 py-2 outline-none"
-                  placeholder="Baeza"
+                  placeholder="Last Name"
                 />
               </div>
             </div>
