@@ -2,3 +2,9 @@ venv/
 *.pyc
 .env
 __pycache__/
+
+habit_tracker/habit_tracker.db
+
+frontend/habit-tracker-ui/node_modules/
+
+.DS_Store
