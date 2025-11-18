@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
-from auth import hash_password, verify_password
 from datetime import datetime, date, timedelta
 import re
 import os
+from .auth import hash_password, verify_password
 
 DB = os.path.join(os.path.dirname(__file__), "habit_tracker.db")
 
